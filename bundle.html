@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Building audiobook bundle</title>
+  <style>
+    :root { --bg: #fff; --fg: #1a1a1a; --muted: #666; --line: #ddd; --accent: #2d6cdf; --bad: #c0392b; --good: #1e8449; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #1e1e1e; --fg: #eee; --muted: #999; --line: #3a3a3a; --accent: #6b9bff; --bad: #ff7b6b; --good: #5fd08a; }
+    }
+    body { max-width: 640px; margin: 32px auto; padding: 0 16px; background: var(--bg); color: var(--fg); font: 14px system-ui, sans-serif; }
+    h1 { font-size: 18px; margin: 0 0 4px; }
+    .sub { color: var(--muted); margin-bottom: 16px; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { padding: 6px 0; border-top: 1px solid var(--line); word-break: break-word; }
+    li.err { color: var(--bad); }
+    li.ok { color: var(--good); }
+    li.warn { color: var(--muted); }
+    summary { cursor: pointer; font-weight: 600; }
+    .hint { color: var(--muted); font-size: 12px; margin: 4px 0; word-break: break-all; }
+    table { border-collapse: collapse; margin: 8px 0; font-size: 11px; width: 100%; }
+    th, td { text-align: left; padding: 3px 6px; border-bottom: 1px solid var(--line); word-break: break-all; }
+    button { background: var(--accent); color: #fff; border: 0; border-radius: 6px; padding: 6px 12px; cursor: pointer; font: inherit; }
+    button:disabled { opacity: .5; cursor: default; }
+    #callout { border: 2px solid var(--accent); border-radius: 8px; padding: 12px 14px; margin: 0 0 14px; }
+    #callout strong { display: block; font-size: 15px; margin-bottom: 4px; }
+    #callout button { margin-top: 8px; }
+    progress { width: 100%; height: 8px; margin-top: 6px; }
+    code { display: block; margin-top: 6px; padding: 8px; background: rgba(127,127,127,.15); border-radius: 6px; user-select: all; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>Building audiobook bundle</h1>
+  <div class="sub">Keep this tab open until it finishes. Nothing is saved to your computer until the whole build succeeds.</div>
+  <div id="callout" hidden>
+    <strong id="callout-title"></strong>
+    <div id="callout-body"></div>
+    <button id="go-player">Go to the player tab</button>
+  </div>
+  <ul id="log"></ul>
+  <progress id="bar" max="1" value="0" hidden></progress>
+  <script src="shared.js"></script>
+  <script src="bundle.js"></script>
+</body>
+</html>

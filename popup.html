@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    :root { --bg: #fff; --fg: #1a1a1a; --muted: #666; --line: #ddd; --accent: #2d6cdf; --tint: rgba(45, 108, 223, .08); }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #1e1e1e; --fg: #eee; --muted: #999; --line: #3a3a3a; --accent: #6b9bff; --tint: rgba(107, 155, 255, .12); }
+    }
+    body { width: 360px; margin: 0; padding: 14px; background: var(--bg); color: var(--fg); font: 13px system-ui, sans-serif; }
+    h1 { font-size: 14px; margin: 0; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    button { background: var(--accent); color: #fff; border: 0; border-radius: 6px; padding: 6px 10px; cursor: pointer; font: inherit; }
+    button:disabled { opacity: .4; cursor: default; }
+    button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); }
+    .hint { color: var(--muted); font-size: 11px; margin-top: 2px; word-break: break-word; }
+
+    /* The audiobook bundle is the main action. */
+    .main { margin: 12px 0 14px; padding: 12px; border: 2px solid var(--accent); border-radius: 10px; background: var(--tint); }
+    .main-title { font-size: 15px; font-weight: 700; }
+    .book { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+    .book img { object-fit: cover; border-radius: 4px; border: 1px solid var(--line); }
+    .grow { flex: 1; min-width: 0; }
+    #title-input { width: 100%; box-sizing: border-box; margin: 4px 0; padding: 6px 8px; font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; }
+    label.check { display: flex; gap: 6px; align-items: flex-start; margin-top: 8px; color: var(--muted); font-size: 11px; }
+    #bundle-btn { width: 100%; margin-top: 10px; padding: 10px; font-size: 14px; font-weight: 600; }
+
+    /* Everything else sits below, quieter. */
+    .more-title { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 4px; }
+    section.tool { border-top: 1px solid var(--line); padding: 10px 0; }
+    details { margin-top: 6px; color: var(--muted); }
+    ul { margin: 6px 0 0; padding-left: 16px; max-height: 120px; overflow: auto; word-break: break-all; font-size: 11px; }
+    #status { margin-top: 8px; color: var(--muted); min-height: 1em; }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <h1>OdioFile</h1>
+    <button class="ghost" id="rescan">Rescan</button>
+  </div>
+
+  <section class="main">
+    <div class="main-title">Audiobook bundle</div>
+    <div class="hint">Merged MP3 + chapters CSV + cover, in one folder named after the book</div>
+
+    <div class="book">
+      <img id="cover" alt="" width="44" height="44" hidden>
+      <div class="grow">
+        <label class="hint" for="title-input">Book title (names the folder and final file) — prefilled from the page title, edit if wrong</label>
+        <input id="title-input" type="text" placeholder="Reading chapters…">
+        <div class="hint" id="cover-status"></div>
+      </div>
+    </div>
+
+    <label class="check"><input type="checkbox" id="sweep" checked>
+      Load every part first by stepping through the chapters. You'll be asked to switch to the player tab while it runs; it returns to the start.</label>
+    <label class="check"><input type="checkbox" id="split">
+      Split into one MP3 per chapter (tagged, with cover art) instead of one merged file. You get the chapters or the merged file, not both, and the M4B converter needs the merged file.</label>
+    <button id="bundle-btn" disabled>Build audiobook</button>
+  </section>
+
+  <div class="more-title">Other tools</div>
+
+  <section class="tool">
+    <div class="row">
+      <strong>Audio <span id="audio-count">0</span></strong>
+      <button class="ghost" id="audio-btn" disabled>Download all</button>
+    </div>
+    <details><summary>Show URLs</summary><ul id="audio-list"></ul></details>
+  </section>
+
+  <section class="tool">
+    <div class="row">
+      <strong>Table of Contents</strong>
+      <button class="ghost" id="toc-btn">Download CSV</button>
+    </div>
+  </section>
+
+  <div id="status"></div>
+  <script src="shared.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

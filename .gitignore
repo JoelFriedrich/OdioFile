@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# ffmpeg programs dropped next to the script, and converter output
+/ffmpeg
+/ffprobe
+*.m4b
